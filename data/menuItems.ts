@@ -1,6 +1,6 @@
 export const menuItems = [
-  { label: "Home", href: "/" },
-  { label: "Authentication", href: "/authentication" },
+  { label: "Home", href: "/api-docs" },
+  { label: "Authentication", href: "/api-docs/authentication" },
   { label: "Services", href: "/services" },
   { label: "Contact", href: "/contact" },
 ];
