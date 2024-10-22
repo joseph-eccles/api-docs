@@ -30,7 +30,9 @@ const Sidebar: React.FC<SidebarProps> = ({ logo, menuItems, className }) => {
         {logo ? (
           logo
         ) : (
-          <span className="hidden md:block text-lg font-semibold">My App</span>
+          <span className="hidden md:block text-lg font-semibold">
+            API Docs
+          </span>
         )}
       </div>
       {/* Navigation Menu */}
