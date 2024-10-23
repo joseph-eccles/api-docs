@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bookshop API Documentation
+
+Welcome to the Bookshop API documentation! This project provides comprehensive documentation for the Bookshop API, which allows you to manage books, authors, and other resources in an online bookshop. The documentation is available online at [https://joseph-eccles.github.io/api-docs/](https://joseph-eccles.github.io/api-docs/).
+
+## Table of Contents
+
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+- [Deployment](#deployment)
+- [Docs-as-Code Approach](#docs-as-code-approach)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Technologies Used
+
+The Bookshop API documentation is built using the following technologies:
+
+- **[Next.js](https://nextjs.org/)**: A React-based framework for building static and server-rendered web applications. It provides the foundation for the documentation site.
+- **[MDX](https://mdxjs.com/)**: A format that allows writing JSX in Markdown files, making it possible to create interactive and dynamic documentation pages.
+- **[Tailwind CSS](https://tailwindcss.com/)**: A utility-first CSS framework that is used to style the documentation site with minimal effort.
+- **[GitHub Actions](https://github.com/features/actions)**: Automates the deployment process, ensuring that changes to the documentation are published to GitHub Pages.
+- **[GitHub Pages](https://pages.github.com/)**: Hosts the static site for the documentation at [https://joseph-eccles.github.io/api-docs/](https://joseph-eccles.github.io/api-docs/).
 
 ## Getting Started
 
-First, run the development server:
+To get started with the Bookshop API documentation locally, follow these steps:
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/joseph-eccles/api-docs.git
+   cd api-docs
+
+   ```
+
+2. **Install Dependencies**
+
+Make sure you have Node.js installed. Then, run:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Run the Development Server**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Start the local development server with:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+  npm run dev
+```
 
-## Learn More
+Open http://localhost:3000 in your browser to see the documentation.
 
-To learn more about Next.js, take a look at the following resources:
+4. **_Build the Static Site_**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To generate a static version of the site for deployment, run:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+  npm run build
+```
 
-## Deploy on Vercel
+5. **_Preview the Production Build_**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+After building, you can preview the production build locally:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+  npm run dev
+```
+
+## Deployment
+
+The documentation is automatically deployed to GitHub Pages using GitHub Actions. The deployment workflow is set up to trigger on every push to the main branch.
+
+### Deployment Steps
+
+1. **_GitHub Actions Workflow:_** The repository contains a .github/workflows/deploy.yml file that defines the deployment process. It builds the static site using Next.js and then deploys it to the gh-pages branch.
+2. **_GitHub Pages Configuration:_** The repository is configured to serve the static site from the gh-pages branch. The site is accessible at <a href="https://joseph-eccles.github.io/api-docs" target="_blank"></a>.
+
+## Docs-as-Code Approach
+
+This project follows the Docs-as-Code approach, which means that the documentation is treated as code and maintained in the same way as software code:
+
+- **_Version Control:_** The documentation is stored in a Git repository, allowing for version control, collaboration, and tracking of changes.
+- **_Continuous Integration/Continuous Deployment (CI/CD):_** GitHub Actions automates the process of deploying the documentation whenever changes are made to the main branch.
+- **_Markdown and MDX Files:_** The documentation is written in Markdown and MDX, which makes it easy to collaborate and contribute using text-based files.
