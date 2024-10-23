@@ -47,7 +47,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${notoSans.className} antialiased flex h-screen`}>
         <div className="md:hidden fixed top-0 left-0 right-0 bg-gray-800 text-white p-4 flex items-center justify-between z-50">
-          <span className="text-lg font-semibold">API Docs</span>
+          <span className="text-lg font-semibold">Bookshop API</span>
           <button
             className="bg-blue-500 text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 hover:bg-blue-600 transition"
             onClick={toggleSidebar}

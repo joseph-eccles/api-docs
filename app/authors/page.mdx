@@ -1,0 +1,202 @@
+import CodeBlock from "../../components/CodeBlock";
+
+# Authors
+
+The Authors resource allows you to manage author records in your application. Each author resource represents an author entity, which includes details such as the author's name, biography, and birth date.
+
+The following fields are available for each author resource:
+
+- **id**: Unique identifier for the author.
+- **name**: The full name of the author.
+- **biography**: A short biography of the author.
+- **birthDate**: The birth date of the author.
+- **nationality**: The nationality of the author.
+
+## Endpoints and Methods
+
+The Authors resource exposes various endpoints to manage author resources. Below are the available endpoints and their HTTP methods:
+
+### Endpoints Overview
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Endpoint</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GET</td>
+      <td>/api/authors</td>
+      <td>Fetch all authors.</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/api/authors/`{id}`</td>
+      <td>Fetch a specific author by ID.</td>
+    </tr>
+    <tr>
+      <td>POST</td>
+      <td>/api/authors</td>
+      <td>Create a new author.</td>
+    </tr>
+    <tr>
+      <td>PUT</td>
+      <td>/api/authors/`{id}`</td>
+      <td>Update an author's information.</td>
+    </tr>
+    <tr>
+      <td>DELETE</td>
+      <td>/api/authors/`{id}`</td>
+      <td>Delete an author by ID.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Parameters
+
+API requests may include parameters that influence the response. Parameters are categorized as path parameters, query parameters, or request bodies.
+
+### Path Parameters
+
+- **id** (integer, required): Unique identifier of the author.
+
+### Request Body Parameters
+
+For creating or updating an author, the following fields are used in the request body:
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td>string</td>
+      <td>Yes</td>
+      <td>The full name of the author.</td>
+    </tr>
+    <tr>
+      <td>biography</td>
+      <td>string</td>
+      <td>No</td>
+      <td>A short biography of the author.</td>
+    </tr>
+    <tr>
+      <td>birthDate</td>
+      <td>string</td>
+      <td>No</td>
+      <td>The birth date of the author (YYYY-MM-DD format).</td>
+    </tr>
+    <tr>
+      <td>nationality</td>
+      <td>string</td>
+      <td>No</td>
+      <td>The nationality of the author.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Request Example
+
+Below are examples for each type of request to the Authors API.
+
+### Get All Authors
+
+<CodeBlock
+  code={`fetch('/api/authors')
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));`}
+  language="javascript"
+/>
+
+### Get Author by ID
+
+<CodeBlock
+  code={`fetch('/api/authors/1')
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));`}
+  language="javascript"
+/>
+
+### Create a New Author
+
+<CodeBlock
+  code={`fetch('/api/authors', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        name: 'Jane Austen',
+        biography: 'English novelist known for her six major novels...',
+        birthDate: '1775-12-16',
+        nationality: 'British'
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));`}
+  language="javascript"
+/>
+
+## Response
+
+These examples illustrate the expected JSON responses for each endpoint.
+
+### Get All Authors
+
+<CodeBlock
+  code={`[
+    {
+        "id": 1,
+        "name": "Jane Austen",
+        "biography": "English novelist known for her six major novels...",
+        "birthDate": "1775-12-16",
+        "nationality": "British"
+    },
+    {
+        "id": 2,
+        "name": "Mark Twain",
+        "biography": "American writer, humorist, and lecturer...",
+        "birthDate": "1835-11-30",
+        "nationality": "American"
+    }
+]`}
+  language="json"
+/>
+
+### Get Author by ID
+
+<CodeBlock
+  code={`{
+    "id": 1,
+    "name": "Jane Austen",
+    "biography": "English novelist known for her six major novels...",
+    "birthDate": "1775-12-16",
+    "nationality": "British"
+}`}
+  language="json"
+/>
+
+### Create Author
+
+<CodeBlock
+  code={`{
+    "id": 3,
+    "name": "Charles Dickens",
+    "biography": "English writer and social critic...",
+    "birthDate": "1812-02-07",
+    "nationality": "British"
+}`}
+  language="json"
+/>

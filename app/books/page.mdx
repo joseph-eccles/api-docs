@@ -1,0 +1,202 @@
+import CodeBlock from "../../components/CodeBlock";
+
+# Books
+
+The Books resource allows you to manage book records in your application. Each book resource represents a book entity, which includes details such as the title, author, genre, and publication year.
+
+The following fields are available for each book resource:
+
+- **id**: Unique identifier for the book.
+- **title**: The title of the book.
+- **author**: The author of the book.
+- **genre**: The genre of the book (e.g., Fiction, Non-fiction).
+- **publicationYear**: The year the book was published.
+
+## Endpoints and Methods
+
+The Books resource exposes various endpoints to manage book resources. Below are the available endpoints and their HTTP methods:
+
+### Endpoints Overview
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Endpoint</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GET</td>
+      <td>/api/books</td>
+      <td>Fetch all books.</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/api/books/`{id}`</td>
+      <td>Fetch a specific book by ID.</td>
+    </tr>
+    <tr>
+      <td>POST</td>
+      <td>/api/books</td>
+      <td>Create a new book.</td>
+    </tr>
+    <tr>
+      <td>PUT</td>
+      <td>/api/books/`{id}`</td>
+      <td>Update a book's information.</td>
+    </tr>
+    <tr>
+      <td>DELETE</td>
+      <td>/api/books/`{id}`</td>
+      <td>Delete a book by ID.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Parameters
+
+API requests may include parameters that influence the response. Parameters are categorized as path parameters, query parameters, or request bodies.
+
+### Path Parameters
+
+- **id (integer, required):** Unique identifier of the book.
+
+### Request Body Parameters
+
+For creating or updating a book, the following fields are used in the request body:
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>title</td>
+      <td>string</td>
+      <td>Yes</td>
+      <td>The title of the book.</td>
+    </tr>
+    <tr>
+      <td>author</td>
+      <td>string</td>
+      <td>Yes</td>
+      <td>The author of the book.</td>
+    </tr>
+    <tr>
+      <td>genre</td>
+      <td>string</td>
+      <td>No</td>
+      <td>The genre of the book (e.g., Fiction, Non-fiction).</td>
+    </tr>
+    <tr>
+      <td>publicationYear</td>
+      <td>integer</td>
+      <td>No</td>
+      <td>The year the book was published.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Request Example
+
+Below are examples for each type of request to the Books resource.
+
+### Get All Books
+
+<CodeBlock
+  code={`fetch('/api/books')
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));`}
+  language="javascript"
+/>
+
+### Get Book by ID
+
+<CodeBlock
+  code={`fetch('/api/books/1')
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));`}
+  language="javascript"
+/>
+
+### Create a New Book
+
+<CodeBlock
+  code={`fetch('/api/books', {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        title: 'The Great Gatsby',
+        author: 'F. Scott Fitzgerald',
+        genre: 'Fiction',
+        publicationYear: 1925
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));`}
+  language="javascript"
+/>
+
+## Response
+
+These examples illustrate the expected JSON responses for each endpoint.
+
+### Get All Books
+
+<CodeBlock
+  code={`[
+    {
+        "id": 1,
+        "title": "The Great Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "genre": "Fiction",
+        "publicationYear": 1925
+    },
+    {
+        "id": 2,
+        "title": "1984",
+        "author": "George Orwell",
+        "genre": "Dystopian",
+        "publicationYear": 1949
+    }
+]`}
+  language="json"
+/>
+
+### Get Book by ID
+
+<CodeBlock
+  code={`{
+    "id": 1,
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "genre": "Fiction",
+    "publicationYear": 1925
+}`}
+  language="json"
+/>
+
+### Create Book
+
+<CodeBlock
+  code={`{
+    "id": 3,
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "genre": "Fiction",
+    "publicationYear": 1960
+}`}
+  language="json"
+/>

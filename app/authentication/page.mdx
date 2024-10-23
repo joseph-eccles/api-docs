@@ -2,70 +2,189 @@ import CodeBlock from "../../components/CodeBlock";
 
 # Authentication
 
-To access the **BookStore API**, you need to authenticate your requests using an API key. Authentication is required for all endpoints to ensure that requests come from authorized users.
+The Bookshop API uses token-based authentication to secure the endpoints and protect user data. All requests to protected endpoints must include a valid authentication token in the request header.
 
-## Obtaining an API Key
+## How to Obtain an Authentication Token
 
-To obtain an API key:
+To interact with the Bookshop API, you first need to authenticate by obtaining a token. Typically, you would send a request to a login endpoint with your credentials (e.g., username and password). The server will respond with an authentication token if the credentials are valid.
 
-1. Sign up for a **BookStore API** account at [https://bookstore.com/signup](https://bookstore.com/signup).
-2. Once logged in, navigate to the **API Keys** section in your account settings.
-3. Click **Generate API Key** to create a new key.
-4. Copy the generated API key and keep it secure. You'll need this key to authenticate your requests.
+### Login Endpoint
 
-> **Note:** Treat your API key like a password. Do not share it publicly or hard-code it in your client-side applications.
+#### Endpoint
 
-## Using the API Key
+<CodeBlock code={`POST /api/auth/login`} language="javascript" />
 
-You need to include your API key in the request header for each API request. The header should be named `Authorization`, and the value should be in the format `Bearer YOUR_API_KEY`.
+#### Request Body Parameters
 
-### Example Header
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>username</td>
+      <td>string</td>
+      <td>Yes</td>
+      <td>The username for authentication.</td>
+    </tr>
+    <tr>
+      <td>password</td>
+      <td>string</td>
+      <td>Yes</td>
+      <td>The password for authentication.</td>
+    </tr>
+  </tbody>
+</table>
 
-Authorization: Bearer YOUR_API_KEY
-
-## Example Request in JavaScript
-
-Here’s how you can authenticate a request to retrieve the list of books using JavaScript with the `fetch` API:
+#### Request Example
 
 <CodeBlock
-  code={`const apiKey = "YOUR_API_KEY";
-fetch("https://api.bookstore.com/v1/books", {
-method: "GET",
-headers: {
-Authorization: \`Bearer \${apiKey}\`,
-"Content-Type": "application/json",
-},
-})
-.then((response) => {
-if (!response.ok) {
-throw new Error(\`HTTP error! Status: \${response.status}\`);
-}
-return response.json();
-})
-.then((data) => {
-console.log("Books:", data);
-})
-.catch((error) => {
-console.error("Error fetching books:", error);
-});`}
+  code={`fetch("/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: "user123",
+      password: "securePassword",
+    }),
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    // Save the authentication token for future requests
+    const token = data.token;
+    console.log("Authentication Token:", token);
+  })
+  .catch((error) => console.error("Error:", error));`}
   language="javascript"
 />
 
-If the request is successful, the response will contain the list of books. If authentication fails, the response will be a 401 Unauthorized error.
+### Response Example
 
-## Error Codes
+<CodeBlock
+  code={`{
+    "token": "your-authentication-token-here"
+}`}
+  language="json"
+/>
 
-If authentication fails, the following error codes may be returned:
+## Using the Authentication Token
 
-- **401 Unauthorized:** The API key is missing or invalid.
-- **403 Forbidden:** The API key does not have permission to access the requested resource.
+Once you have obtained the authentication token, you must include it in the Authorization header of all subsequent API requests. The token should be prefixed with the word "Bearer".
 
-## Best Practices for API Key Security
+### Example of an Authenticated Request
 
-- **Keep your API key private:** Never share your API key or expose it in client-side code.
-- **Rotate your API key regularly:** Periodically generate a new key and update your applications to use the new key.
-- **Use separate API keys for different environments:** For example, use different keys for development, staging, and production environments.
+To make a request to a protected endpoint, such as fetching all books, include the token in the Authorization header:
 
-## Contact Support
+<CodeBlock
+  code={`fetch('/api/books', {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer your-authentication-token-here'
+    }
+})
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+`}
+  language="javascript"
+/>
 
-If you encounter issues with authentication, contact our support team at support@bookstore.com.
+## Handling Authentication Errors
+
+If the token is missing, expired, or invalid, the server will respond with a `401 Unauthorized` status code. It's important to handle these errors gracefully in your application.
+
+### Example Error Handling
+
+<CodeBlock
+  code={`fetch('/api/books', {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer invalid-or-expired-token'
+    }
+})
+  .then(response => {
+    if (response.status === 401) {
+      throw new Error('Unauthorized: Please check your authentication token.');
+    }
+    return response.json();
+  })
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+`}
+  language="javascript"
+/>
+
+## Refreshing the Authentication Token
+
+For long-lived sessions, you may need to refresh the token periodically. The API may provide a token refresh endpoint to extend the token's validity without requiring the user to log in again.
+
+### Token Refresh Endpoint
+
+#### Endpoint
+
+<CodeBlock code={`POST /api/auth/refresh`} language="javascript" />
+
+#### Request Header
+
+<table>
+  <thead>
+    <tr>
+      <th>Header</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Authorization</td>
+      <td>Yes</td>
+      <td>The current token in "Bearer" format.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Request Example
+
+{" "}
+
+<CodeBlock
+  code={`fetch('/api/auth/refresh', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer your-current-authentication-token'
+      }
+})
+  .then(response => response.json())
+  .then(data => {
+    // Save the new authentication token
+    const newToken = data.token;
+    console.log('New Authentication Token:', newToken);
+  })
+  .catch(error => console.error('Error:', error));
+`}
+  language="javascript"
+/>
+
+#### Response Example
+
+<CodeBlock
+  code={`{
+    "token": "new-authentication-token-here"
+}
+`}
+  language="json"
+/>
+
+## Best Practices for Authentication
+
+- **Secure Storage:** Store authentication tokens securely, such as in HTTP-only cookies or secure storage mechanisms like localStorage or sessionStorage with proper security settings.
+- **Token Expiration:** Handle token expiration and refresh the token if necessary.
+- **Error Handling:** Gracefully handle authentication errors by prompting users to log in again or refresh their session.
+
+With these guidelines, you can securely interact with the Bookshop API while protecting user data and ensuring a smooth user experience.
